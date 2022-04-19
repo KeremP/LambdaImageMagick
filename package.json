@@ -1,0 +1,25 @@
+{
+  "name": "lambdaimagemagick",
+  "version": "1.0.0",
+  "description": "For use in AWS Lambda function for image processing. Used in production @ Customary.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KeremP/LambdaImageMagick.git"
+  },
+  "author": "Kerem P.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KeremP/LambdaImageMagick/issues"
+  },
+  "homepage": "https://github.com/KeremP/LambdaImageMagick#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1116.0",
+    "axios": "^0.26.1",
+    "file-type": "^17.1.1",
+    "gm": "^1.23.1"
+  }
+}

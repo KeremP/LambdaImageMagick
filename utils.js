@@ -5,7 +5,6 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const axios = require('axios');
 
-
 exports.downloadImage = async (url) => {
     const res = await axios.get(url, {responseType: 'arraybuffer'});
     return Buffer.from(res.data, 'binary');
@@ -27,4 +26,11 @@ exports.checkType = async (buf) => {
 exports.saveToS3 = async (bucket, fileName, buf) => {
     const contentType = await FT.fileTypeFromBuffer(buf);
     const key = `${fileName}.${contentType.ext}`;
+    await s3.putObject({
+        Bucket: bucket,
+        Key: key,
+        Body: buf,
+        ContentEncoding: 'base64',
+        ContentType: contentType.mime,
+    }).promise();
 };

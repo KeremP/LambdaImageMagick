@@ -1,6 +1,6 @@
+const FT = require('file-type');
 const GM = require('gm');
 const gm = GM.subClass({ imageMagick: true });
-const FT = require('file-type');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const axios = require('axios');
@@ -19,7 +19,7 @@ exports.convert = async (buf) => {
 };
 
 exports.checkType = async (buf) => {
-    const contentType = await FT.fileTypeFromBuffer(buf);
+    const contentType = await FT.fromBuffer(buf);
     return contentType;
 };
 

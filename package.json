@@ -19,7 +19,7 @@
   "dependencies": {
     "aws-sdk": "^2.1116.0",
     "axios": "^0.26.1",
-    "file-type": "^17.1.1",
+    "file-type": "^16.5.3",
     "gm": "^1.23.1"
   }
 }

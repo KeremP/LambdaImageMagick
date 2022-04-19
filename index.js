@@ -7,7 +7,7 @@ exports.handler = async (event) => {
     const fileType = await checkType(buf);
     if (fileType.ext == '.ai' || fileType.ext == '.eps') {
         const converted = await convert(buf);
-        var base64 = convert.toString('base64');
+        var base64 = converted.toString('base64');
         return { base64 };
     }
 };

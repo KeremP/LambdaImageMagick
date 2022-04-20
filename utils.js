@@ -15,10 +15,7 @@ exports.downloadImage = async (url) => {
     return Buffer.from(res.data,'binary');
 };
 
-// TODO: fix tmp file writing, or put object to s3 bucket temporarily
-//       then delete from temp bucket dir on complete.
-//       OR: write to temp_out dir -> need to test this.
-
+// writes passed buffer to file using fs.write()
 function writeBufferToFile(fd, buffer) {
     var deffered = Q.defer();
     fs.write(fd, buffer, 0, buffer.length, 0, function(err, written, buffer) {
@@ -47,7 +44,9 @@ exports.writeBufferToTempFile = function(buffer) {
     return deffered.promise;
 };
 
+// execute magick convert command using passed in temp filepaths
 exports.convertCmd = async (fp) => {
+    // this is to ensure no two temp outputs have the same filename. may not be needed.
     const id = await nanoid.nanoid();
     const out = '/tmp/'+id+'.png';
     try{
@@ -60,17 +59,20 @@ exports.convertCmd = async (fp) => {
     }
 }
 
+// convert output to base64, cleanup temp files
 exports.convertBase64 = async (fp) => {
     const b64 = fs.readFileSync(fp, {encoding:'base64'});
     fs.unlinkSync(fp);
     return b64;
 }
 
+// check filetype of input buffer
 exports.checkType = async (buf) => {
     const contentType = await FT.fromBuffer(buf);
     return contentType;
 };
 
+// save output to s3 if needed
 exports.saveToS3 = async (bucket, fileName, buf) => {
     const contentType = await FT.fileTypeFromBuffer(buf);
     const key = `${fileName}.${contentType.ext}`;

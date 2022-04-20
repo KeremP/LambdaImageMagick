@@ -1,10 +1,9 @@
 const  { downloadImage, writeBufferToTempFile, convertCmd, convertBase64 } = require('./utils');
 
-// checks file type and converts from .ai or .eps to .png
-// using imagemagick. the returned buffer will be rendered on fabric.js canvas
+// converts input image files to .png. primarily used to convert .ai and .eps files.
+// uses imagemagick and ghostscript on AWS Lambda.
 exports.handler = async (event) => {
     const buf = await downloadImage(event.url);
-    // const inputType = await checkType(buf);
     const outputTmp = await writeBufferToTempFile(buf);
     const outpath = await convertCmd(outputTmp);
     const output = await convertBase64(outpath);

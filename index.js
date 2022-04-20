@@ -3,7 +3,9 @@ const  { downloadImage, writeBufferToTempFile, convertCmd, convertBase64 } = req
 // converts input image files to .png. primarily used to convert .ai and .eps files.
 // uses imagemagick and ghostscript on AWS Lambda.
 exports.handler = async (event) => {
-    const buf = await downloadImage(event.url);
+    console.log(event);
+    const eventJson = JSON.parse(event.body);
+    const buf = await downloadImage(eventJson.url);
     const outputTmp = await writeBufferToTempFile(buf);
     const outpath = await convertCmd(outputTmp);
     const output = await convertBase64(outpath);

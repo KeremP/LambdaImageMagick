@@ -59,6 +59,21 @@ exports.convertCmd = async (fp) => {
     }
 }
 
+// execute magick replace white w/ transparent command using passed in temp filepaths
+exports.transparentCmd = async (fp) => {
+    // this is to ensure no two temp outputs have the same filename. may not be needed.
+    const id = await nanoid.nanoid();
+    const out = '/tmp/'+id+'.png';
+    try{
+        const { stdout } = await exec(
+            `magick ${fp} -fuzz 20% -transparent white ${out}`
+        );
+        return out;
+    } catch(e) {
+        throw new Error('Error in convert cmd: '+ e.message);
+    }
+}
+
 // convert output to base64, cleanup temp files
 exports.convertBase64 = async (fp) => {
     const b64 = fs.readFileSync(fp, {encoding:'base64'});
